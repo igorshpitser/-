@@ -1,0 +1,16 @@
+version: '3'
+services:
+  webserver:
+    image: nginx:latest # або apache:latest, в залежності від того, який веб-сервер ви використовуєте
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html # монтуємо локальну папку html до директорії /usr/share/nginx/html контейнера
+  checker:
+    build: .
+    environment:
+      - URL=http://webserver
+      - MAILTO=youremail@example.com
+      - LOGFILE=/var/log/error.log
+    depends_on:
+      - webserver
